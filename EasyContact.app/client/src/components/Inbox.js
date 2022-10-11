@@ -27,19 +27,29 @@ export class Inbox extends Component {
 
   markRead(idx) {
     /* mark this message as read */
-
+    let messages = [...this.state.messages];
+    messages[idx].read = true;
+    this.setState({ messages });
   }
 
   doShow(idx) {
-  
+    this.markRead(idx);
+    this.setState({
+      selected: messages[idx]
+    });
+    /* open message in modal */
+    this.ModalMessage.current.show();
   }
 
   doCompose() {
-   
+   /* open compose modal */
+   this.ModalCompose.current.show();
   }
 
   toggleMark(idx) {
-   
+    let messages = [...this.state.messages];
+    messages[idx].marked = messages[idx].marked ? 0 : 1;
+    this.setState({ messages });
   }
 
   doDelete(idx) {
