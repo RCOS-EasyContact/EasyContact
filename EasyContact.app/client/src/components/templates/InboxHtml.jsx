@@ -1,5 +1,6 @@
 import React from "react";
 import { AboutHtml } from "./AboutHtml";
+import { FaRegPaperPlane } from "react-icons/fa";
 
 export const InboxHtml = ({ parent }) => {
   return (
@@ -37,6 +38,7 @@ export const InboxHtml = ({ parent }) => {
                       }
                     </span>
                   </a>
+
                   <a
                     href={{ void: 0 }}
                     className="nav-link"
@@ -60,8 +62,20 @@ export const InboxHtml = ({ parent }) => {
                     data-toggle="tab"
                     data-target="#drafts"
                   >
+                    
                     <span className="icon icon-pencil fa fa-fw fa-edit mr-md-1" />
                     <span className="d-none d-md-inline">Drafts</span>
+                  </a>
+                  <a
+                    href={{ void: 0 }}
+                    className="nav-link"
+                    title="Sent"
+                    data-toggle="tab"
+                    data-target="#sent"
+                  >
+                    
+                    <FaRegPaperPlane size = '1.2rem'/>
+                    <span className="d-none d-md-inline"> Sent</span>
                   </a>
                 </div>
                 <div className="d-md-block d-none">
@@ -243,6 +257,10 @@ export const InboxHtml = ({ parent }) => {
                 </div>
               </div>
               <div id="drafts" className="tab-pane">
+                <h5>Drafts</h5>
+                <p>Not implemented..</p>
+              </div>
+              <div id="sent" className="tab-pane">
                 <h5>Drafts</h5>
                 <p>Not implemented..</p>
               </div>
