@@ -53,11 +53,21 @@ export class Inbox extends Component {
   }
 
   doDelete(idx) {
-    
+    let messages = [...this.state.messages];
+    let deleted = [...this.state.deleted];
+    /* append it to deleted */
+    deleted.push(messages[idx]);
+    /* remove the message at idx */
+    messages.splice(idx, 1);
+    this.setState({ messages, deleted });
   }
 
   toggleMarkAll() {
-   
+    let messages = [...this.state.messages];
+    messages.map((v, k) => {
+      return (v.marked = v.marked ? 0 : 1);
+    });
+    this.setState({ messages });
   }
 
   deleteMarked() {
@@ -65,7 +75,8 @@ export class Inbox extends Component {
   }
 
   refreshMessages() {
-   
+    let initMessages = [...this.state.initMessages];
+    this.setState({ messages: initMessages });
   }
 
   deleteMessages(arr) {
