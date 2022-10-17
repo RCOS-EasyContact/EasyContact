@@ -230,14 +230,86 @@ export const InboxHtml = ({ parent }) => {
                 <div className="row">
                   {parent.state.deleted && parent.state.deleted.length > 0
                     ? parent.state.deleted.map((item, idx) => (
-                        <div className="col-12" key={idx}>
-                          <a href>
-                            {item.from} ({item.fromAddress})
-                            <span className="px-2">
-                              {item.subject.substring(0, 20)}...
-                            </span>
-                          </a>
-                        </div>
+                      <li
+                        key={idx}
+                        className="list-group-item list-group-item-action d-block py-1"
+                      >
+                        <summary className="row">
+                          <div className="col py-2 order-1">
+                            <div
+                              onClick={() => parent.toggleMark(idx)}
+                              className="custom-control custom-checkbox"
+                            >
+                              <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                name={"check" + idx}
+                                checked={item.marked === 1}
+                                onChange={() => parent.toggleMark(idx)}
+                              />
+                              <label
+                                className="custom-control-label text-nowrap"
+                                htmlFor={"check" + idx}
+                              >
+                                <a
+                                  title="send mail"
+                                  href={"mailto:" + item.fromAddress}
+                                >
+                                  {item.from}{" "}
+                                  <span className="icon icon-envelope far fa-fw fa-envelope mr-md-1" />
+                                </a>
+                              </label>
+                            </div>
+                          </div>
+                          <div className="col-auto px-0 order-last order-sm-2 d-none d-sm-block align-self-center text-right">
+                            {/* change to recover icon later */}
+                            {/* <a
+                              className="text-secondary px-md-1"
+                              title="Deleted"
+                              onClick={() => parent.doDelete(idx)}
+                            >
+                              <span className="icon icon-trash fa fa-fw fa-trash" />
+                            </a> */}
+                          </div>
+                          <div
+                            className="col-sm-12 col-10 py-2 order-3"
+                            onClick={() => parent.doShow(idx)}
+                          >
+                            <div className="float-right text-right">
+                              <span
+                                className={
+                                  " d-none d-sm-block " +
+                                  (!item.read ? "font-weight-bold" : "")
+                                }
+                              >
+                                {item.dtSent}
+                              </span>
+                            </div>
+                            <p className="lead mb-0">
+                              <a
+                                title={
+                                  !item.read
+                                    ? "This is a new message"
+                                    : "View this message"
+                                }
+                                onClick={() => parent.doShow(idx)}
+                              >
+                                {item.subject}
+                              </a>
+                              {item.attachment ? (
+                                <i className="align-middle fa fa-paperclip icon-paper-clip" />
+                              ) : null}
+                              <button
+                                type="button"
+                                className="btn btn-outline-secondary btn-sm ml-2 d-none d-md-inline"
+                                onClick={() => parent.doShow(idx)}
+                              >
+                                Open
+                              </button>
+                            </p>
+                          </div>
+                        </summary>
+                    </li>
                       ))
                     : null}
                 </div>
