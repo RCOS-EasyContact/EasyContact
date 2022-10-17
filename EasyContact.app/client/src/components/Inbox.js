@@ -93,7 +93,9 @@ export class Inbox extends Component {
 
   refreshMessages() {
     let initMessages = [...this.state.initMessages];
-    this.setState({ messages: initMessages });
+    let deleted = [...this.state.deleted];
+    deleted = [];
+    this.setState({ messages: initMessages,deleted });
   }
 
   deleteMessages(arr) {
