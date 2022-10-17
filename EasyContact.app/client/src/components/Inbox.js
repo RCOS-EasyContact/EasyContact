@@ -74,21 +74,19 @@ export class Inbox extends Component {
     let messages = [...this.state.messages];
     let deleted = [...this.state.deleted];
     let temp_store_message_idx = [];
-    let count= 0;
     for(let i = 0; i < messages.length;i++){
       //console.log(messages[i]);
       if(messages[i].marked === undefined){
         console.log("und");
       }
-      else{
+      else if (messages[i].marked === 1){
         deleted.push(messages[i]);
         temp_store_message_idx.push(i); 
       }
     }
-    for(let temp = 0; temp < temp_store_message_idx.length;temp++){
-      console.log(temp_store_message_idx[temp-count]);
-      messages.splice(temp_store_message_idx[temp-count], 1);
-      count++;
+    for(let temp = temp_store_message_idx.length-1; temp >= 0;temp--){
+      console.log(temp_store_message_idx[temp]);
+      messages.splice(temp_store_message_idx[temp], 1);
     }
     this.setState({ messages, deleted });
   }
