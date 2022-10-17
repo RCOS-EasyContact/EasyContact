@@ -10,6 +10,7 @@ export class Inbox extends Component {
     this.markRead = this.markRead.bind(this);
     this.doShow = this.doShow.bind(this);
     this.doDelete = this.doDelete.bind(this);
+    this.doRecover = this.doRecover.bind(this);
     this.toggleMark = this.toggleMark.bind(this);
     this.toggleMarkAll = this.toggleMarkAll.bind(this);
     this.deleteMarked = this.deleteMarked.bind(this);
@@ -99,6 +100,10 @@ export class Inbox extends Component {
   }
 
   deleteMessages(arr) {
+    
+  }
+
+  doRecover(idx) {
     
   }
 

@@ -263,13 +263,13 @@ export const InboxHtml = ({ parent }) => {
                           </div>
                           <div className="col-auto px-0 order-last order-sm-2 d-none d-sm-block align-self-center text-right">
                             {/* change to recover icon later */}
-                            {/* <a
+                            <a
                               className="text-secondary px-md-1"
-                              title="Deleted"
-                              onClick={() => parent.doDelete(idx)}
+                              title="Recovered"
+                              onClick={() => parent.doRecover(idx)}
                             >
-                              <span className="icon icon-trash fa fa-fw fa-trash" />
-                            </a> */}
+                              <span className="fa fa-undo" />
+                            </a>
                           </div>
                           <div
                             className="col-sm-12 col-10 py-2 order-3"
