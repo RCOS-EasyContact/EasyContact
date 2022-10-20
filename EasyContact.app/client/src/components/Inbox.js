@@ -10,7 +10,6 @@ export class Inbox extends Component {
     this.markRead = this.markRead.bind(this);
     this.doShow = this.doShow.bind(this);
     this.doDelete = this.doDelete.bind(this);
-    this.doRecover = this.doRecover.bind(this);
     this.toggleMark = this.toggleMark.bind(this);
     this.toggleMarkAll = this.toggleMarkAll.bind(this);
     this.deleteMarked = this.deleteMarked.bind(this);
@@ -22,7 +21,8 @@ export class Inbox extends Component {
       initMessages: messages,
       messages: messages,
       selected: {},
-      deleted: []
+      deleted: [],
+      drafts: [],
     };
   }
 
@@ -32,8 +32,8 @@ export class Inbox extends Component {
     messages[idx].read = true;
     this.setState({ messages });
   }
-  
-    markAsUnRead(idx){
+
+  markAsUnRead(idx){
      /* mark this message as unread */
      let messages = [...this.state.messages];
      messages[idx].read = false;
@@ -43,15 +43,15 @@ export class Inbox extends Component {
   doShow(idx) {
     this.markRead(idx);
     this.setState({
-      selected: messages[idx]
+      selected: messages[idx],
     });
     /* open message in modal */
     this.ModalMessage.current.show();
   }
 
-  doCompose() {
-   /* open compose modal */
-   this.ModalCompose.current.show();
+  doCompose(val) {
+    /* open compose modal */
+    this.ModalCompose.current.show(val);
   }
 
   toggleMark(idx) {
@@ -82,17 +82,16 @@ export class Inbox extends Component {
     let messages = [...this.state.messages];
     let deleted = [...this.state.deleted];
     let temp_store_message_idx = [];
-    for(let i = 0; i < messages.length;i++){
+    for (let i = 0; i < messages.length; i++) {
       //console.log(messages[i]);
-      if(messages[i].marked === undefined){
+      if (messages[i].marked === undefined) {
         console.log("und");
-      }
-      else if (messages[i].marked === 1){
+      } else if (messages[i].marked === 1) {
         deleted.push(messages[i]);
-        temp_store_message_idx.push(i); 
+        temp_store_message_idx.push(i);
       }
     }
-    for(let temp = temp_store_message_idx.length-1; temp >= 0;temp--){
+    for (let temp = temp_store_message_idx.length - 1; temp >= 0; temp--) {
       console.log(temp_store_message_idx[temp]);
       messages.splice(temp_store_message_idx[temp], 1);
     }
@@ -103,29 +102,22 @@ export class Inbox extends Component {
     let initMessages = [...this.state.initMessages];
     let deleted = [...this.state.deleted];
     deleted = [];
-    this.setState({ messages: initMessages,deleted });
+    this.setState({ messages: initMessages, deleted });
   }
 
-  deleteMessages(arr) {
-    
-  }
+  deleteMessages(arr) {}
 
-  doRecover(idx) {
-    let messages = [...this.state.messages];
-    let deleted = [...this.state.deleted];
-    /* append it to deleted */
-    messages.push(deleted[idx]);
-    /* remove the message at idx */
-    deleted.splice(idx, 1);
-    this.setState({ messages, deleted });
-    this.refreshMessages();
-  }
+
 
   render() {
     return (
       <div>
         <InboxHtml parent={this} />
-        <ModalCompose sendTo={this.state.selected.fromAddress} />
+        <ModalCompose
+          ref={this.ModalCompose}
+          saveAsDraft={this.saveAsDraft.bind(this)}
+          sendTo={this.state.selected.fromAddress}
+        />
         <ModalMessage ref={this.ModalMessage} message={this.state.selected} />
       </div>
     );

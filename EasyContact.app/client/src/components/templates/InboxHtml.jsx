@@ -11,8 +11,9 @@ export const InboxHtml = ({ parent }) => {
               <ul className="list-group sticky-top sticky-offset">
                 <button
                   className="btn btn-block btn-outline-secondary my-1 text-uppercase"
-                  data-target="#composeModal"
-                  data-toggle="modal"
+                  // data-target="#composeModal"
+                  // data-toggle="modal"
+                  onClick={() => parent.doCompose()}
                 >
                   Compose <i className="align-middle icon-pencil" />
                 </button>
@@ -62,6 +63,12 @@ export const InboxHtml = ({ parent }) => {
                   >
                     <span className="icon icon-pencil fa fa-fw fa-edit mr-md-1" />
                     <span className="d-none d-md-inline">Drafts</span>
+                    <span
+                      className="badge badge-pill badge-dark small font-weight-light ml-1"
+                      title="Drafts"
+                    >
+                      {parent.state.drafts.length}
+                    </span>
                   </a>
                 </div>
                 <div className="d-md-block d-none">
@@ -131,8 +138,9 @@ export const InboxHtml = ({ parent }) => {
                   <button
                     type="button"
                     className="btn btn-outline-secondary mr-sm-1 mr-none"
-                    data-target="#composeModal"
-                    data-toggle="modal"
+                    // data-target="#composeModal"
+                    // data-toggle="modal"
+                    onClick={() => parent.doCompose()}
                   >
                     <i className="align-middle icon-pencil fa fa-edit" />
                   </button>
@@ -173,6 +181,17 @@ export const InboxHtml = ({ parent }) => {
                               </div>
                             </div>
                             <div className="col-auto px-0 order-last order-sm-2 d-none d-sm-block align-self-center text-right">
+                              {item.read ? (
+                                <a
+                                  className="text-secondary px-md-1"
+                                  title="mark as unread"
+                                  onClick={() => parent.markAsUnRead(idx)}
+                                >
+                                  <span className="icon icon-refresh fa fa-fw fas fa-sync" />
+                                </a>
+                              ) : (
+                                ""
+                              )}
                               <a
                                 className="text-secondary px-md-1"
                                 title="Deleted"
@@ -230,93 +249,60 @@ export const InboxHtml = ({ parent }) => {
                 <div className="row">
                   {parent.state.deleted && parent.state.deleted.length > 0
                     ? parent.state.deleted.map((item, idx) => (
-                      <li
-                        key={idx}
-                        className="list-group-item list-group-item-action d-block py-1"
-                      >
-                        <summary className="row">
-                          <div className="col py-2 order-1">
-                            <div
-                              onClick={() => parent.toggleMark(idx)}
-                              className="custom-control custom-checkbox"
-                            >
-                              <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                name={"check" + idx}
-                                checked={item.marked === 1}
-                                onChange={() => parent.toggleMark(idx)}
-                              />
-                              <label
-                                className="custom-control-label text-nowrap"
-                                htmlFor={"check" + idx}
-                              >
-                                <a
-                                  title="send mail"
-                                  href={"mailto:" + item.fromAddress}
-                                >
-                                  {item.from}{" "}
-                                  <span className="icon icon-envelope far fa-fw fa-envelope mr-md-1" />
-                                </a>
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col-auto px-0 order-last order-sm-2 d-none d-sm-block align-self-center text-right">
-                            {/* change to recover icon later */}
-                            <a
-                              className="text-secondary px-md-1"
-                              title="Recovered"
-                              onClick={() => parent.doRecover(idx)}
-                            >
-                              <span className="fa fa-undo" />
-                            </a>
-                          </div>
-                          <div
-                            className="col-sm-12 col-10 py-2 order-3"
-                            onClick={() => parent.doShow(idx)}
-                          >
-                            <div className="float-right text-right">
-                              <span
-                                className={
-                                  " d-none d-sm-block " +
-                                  (!item.read ? "font-weight-bold" : "")
-                                }
-                              >
-                                {item.dtSent}
-                              </span>
-                            </div>
-                            <p className="lead mb-0">
-                              <a
-                                title={
-                                  !item.read
-                                    ? "This is a new message"
-                                    : "View this message"
-                                }
-                                onClick={() => parent.doShow(idx)}
-                              >
-                                {item.subject}
-                              </a>
-                              {item.attachment ? (
-                                <i className="align-middle fa fa-paperclip icon-paper-clip" />
-                              ) : null}
-                              <button
-                                type="button"
-                                className="btn btn-outline-secondary btn-sm ml-2 d-none d-md-inline"
-                                onClick={() => parent.doShow(idx)}
-                              >
-                                Open
-                              </button>
-                            </p>
-                          </div>
-                        </summary>
-                    </li>
+                        <div className="col-12" key={idx}>
+                          <a href>
+                            {item.from} ({item.fromAddress})
+                            <span className="px-2">
+                              {item.subject.substring(0, 20)}...
+                            </span>
+                          </a>
+                        </div>
                       ))
                     : null}
                 </div>
               </div>
               <div id="drafts" className="tab-pane">
-                <h5>Drafts</h5>
-                <p>Not implemented..</p>
+                <h5>Drafts </h5>
+
+                <ul className="list-group py-2">
+                  {parent.state.drafts && parent.state.drafts.length > 0
+                    ? parent.state.drafts.map((item, idx) => (
+                        <li
+                          key={idx}
+                          className="list-group-item list-group-item-action d-block py-1"
+                        >
+                          <summary className="row">
+                            <div className="col py-2 order-1">
+                              <div
+                                // onClick={() => parent.toggleMark(idx)}
+                                className="custom-checkbox"
+                              >
+                                <a title="send mail" href={"mailto:" + item.to}>
+                                  {item.to}{" "}
+                                  <span className="icon icon-envelope far fa-fw fa-envelope mr-md-1" />
+                                </a>
+                              </div>
+                            </div>
+                            <div className="col-auto px-0 order-last order-sm-2 d-none d-sm-block align-self-center text-right"></div>
+                            <div className="col-sm-12 col-10 py-2 order-3">
+                              <div className="float-right text-right"></div>
+                              <p className="lead mb-0">
+                                <a>{item.subject}</a>
+                                <button
+                                  type="button"
+                                  className="btn btn-outline-secondary btn-sm ml-2 d-none d-md-inline"
+                                  onClick={() => parent.doCompose(item)}
+                                >
+                                  Open
+                                </button>
+                              </p>
+                            </div>
+                          </summary>
+                        </li>
+                      ))
+                    : null}
+                </ul>
+                {/* <p>Not implemented..</p> */}
               </div>
               <div id="calendar" className="tab-pane">
                 <h5>Calendar</h5>
