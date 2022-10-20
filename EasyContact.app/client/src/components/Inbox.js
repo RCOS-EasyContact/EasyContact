@@ -32,6 +32,13 @@ export class Inbox extends Component {
     messages[idx].read = true;
     this.setState({ messages });
   }
+  
+    markAsUnRead(idx){
+     /* mark this message as unread */
+     let messages = [...this.state.messages];
+     messages[idx].read = false;
+     this.setState({ messages });
+  }
 
   doShow(idx) {
     this.markRead(idx);
