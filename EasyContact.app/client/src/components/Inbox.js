@@ -104,7 +104,14 @@ export class Inbox extends Component {
   }
 
   doRecover(idx) {
-    
+    let messages = [...this.state.messages];
+    let deleted = [...this.state.deleted];
+    /* append it to deleted */
+    messages.push(deleted[idx]);
+    /* remove the message at idx */
+    deleted.splice(idx, 1);
+    this.setState({ messages, deleted });
+    this.refreshMessages();
   }
 
   render() {
