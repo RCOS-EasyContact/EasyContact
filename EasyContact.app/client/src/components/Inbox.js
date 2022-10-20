@@ -11,6 +11,7 @@ export class Inbox extends Component {
     this.doShow = this.doShow.bind(this);
     this.doDelete = this.doDelete.bind(this);
     this.doRecover = this.doRecover.bind(this);
+    this.permaDelete = this.permaDelete.bind(this);
     this.toggleMark = this.toggleMark.bind(this);
     this.toggleMarkAll = this.toggleMarkAll.bind(this);
     this.deleteMarked = this.deleteMarked.bind(this);
@@ -106,12 +107,19 @@ export class Inbox extends Component {
   doRecover(idx) {
     let messages = [...this.state.messages];
     let deleted = [...this.state.deleted];
-    /* append it to deleted */
+    /* append it to message */
     messages.push(deleted[idx]);
+    /* remove the deleted at idx */
+    deleted.splice(idx, 1);
+    this.setState({ messages, deleted });
+  }
+
+  permaDelete(idx) {
+    let messages = [...this.state.messages];
+    let deleted = [...this.state.deleted];
     /* remove the message at idx */
     deleted.splice(idx, 1);
     this.setState({ messages, deleted });
-    this.refreshMessages();
   }
 
   render() {

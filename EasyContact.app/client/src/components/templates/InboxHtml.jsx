@@ -262,7 +262,6 @@ export const InboxHtml = ({ parent }) => {
                             </div>
                           </div>
                           <div className="col-auto px-0 order-last order-sm-2 d-none d-sm-block align-self-center text-right">
-                            {/* change to recover icon later */}
                             <a
                               className="text-secondary px-md-1"
                               title="Recovered"
@@ -271,6 +270,15 @@ export const InboxHtml = ({ parent }) => {
                               <span className="fa fa-undo" />
                             </a>
                           </div>
+                          <div className="col-auto px-0 order-last order-sm-2 d-none d-sm-block align-self-center text-right">
+                              <a
+                                className="text-secondary px-md-1"
+                                title="Permanent Deleted"
+                                onClick={() => parent.permaDelete(idx)}
+                              >
+                                <span className="icon icon-trash fa fa-fw fa-trash" />
+                              </a>
+                            </div>
                           <div
                             className="col-sm-12 col-10 py-2 order-3"
                             onClick={() => parent.doShow(idx)}
