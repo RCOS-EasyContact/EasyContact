@@ -115,7 +115,6 @@ export class Inbox extends Component {
         <InboxHtml parent={this} />
         <ModalCompose
           ref={this.ModalCompose}
-          saveAsDraft={this.saveAsDraft.bind(this)}
           sendTo={this.state.selected.fromAddress}
         />
         <ModalMessage ref={this.ModalMessage} message={this.state.selected} />
