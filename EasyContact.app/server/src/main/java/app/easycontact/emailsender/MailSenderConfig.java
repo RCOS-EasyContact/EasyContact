@@ -13,7 +13,6 @@ import java.util.Properties;
 public class MailSenderConfig {
     private final Environment env;
 
-    //    private String host;
     @Autowired
     public MailSenderConfig(Environment env) {
         this.env = env;
