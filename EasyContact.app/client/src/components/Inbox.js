@@ -22,7 +22,7 @@ export class Inbox extends Component {
       messages: messages,
       selected: {},
       deleted: [],
-      drafts: [],
+      drafts: [], 
     };
   }
 
@@ -107,7 +107,11 @@ export class Inbox extends Component {
 
   deleteMessages(arr) {}
 
-
+  saveAsDraft(form) {
+    let drafts = [...this.state.drafts];
+    drafts.push(form); 
+    this.setState({ drafts });
+  }
 
   render() {
     return (
@@ -115,6 +119,7 @@ export class Inbox extends Component {
         <InboxHtml parent={this} />
         <ModalCompose
           ref={this.ModalCompose}
+          saveAsDraft={this.saveAsDraft.bind(this)}
           sendTo={this.state.selected.fromAddress}
         />
         <ModalMessage ref={this.ModalMessage} message={this.state.selected} />
