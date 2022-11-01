@@ -27,7 +27,7 @@ public final class EmailReceiverImplementation extends EmailReceiver {
             // fetches new messages from server
             Message[] messages = folderInbox.getMessages();
 
-            for (int i = 0; i < messages.length; i++) {
+            for (int i = 0; i < messages.length; ++i) {
                 Message msg = messages[i];
                 Address[] fromAddress = msg.getFrom();
                 String from = fromAddress[0].toString();
@@ -51,14 +51,15 @@ public final class EmailReceiverImplementation extends EmailReceiver {
                     }
                 }
 
-                // print out details of each message
-                System.out.println("Message #" + (i + 1) + ":");
-                System.out.println("\t From: " + from);
-                System.out.println("\t To: " + toList);
-                System.out.println("\t CC: " + ccList);
-                System.out.println("\t Subject: " + subject);
-                System.out.println("\t Sent Date: " + sentDate);
-                System.out.println("\t Message: " + messageContent);
+                // create a Email object for each message
+                Email email = EmailImplementation.builder().id(i).from(from).toList(toList).ccList(ccList).subject(subject).sendDate(sentDate).message(messageContent).build();
+                System.out.println("Message #" + email.getId() + ":");
+                System.out.println("\t From: " + email.getFrom());
+                System.out.println("\t To: " + email.getToList());
+                System.out.println("\t CC: " + email.getCcList());
+                System.out.println("\t Subject: " + email.getCcList());
+                System.out.println("\t Sent Date: " + email.getSendDate());
+                System.out.println("\t Message: " + email.getMessage());
             }
 
             // disconnect
