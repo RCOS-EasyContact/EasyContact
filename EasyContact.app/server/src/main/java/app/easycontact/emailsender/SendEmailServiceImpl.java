@@ -12,10 +12,9 @@ public class SendEmailServiceImpl implements SendEmailService {
     private JavaMailSender emailSender;
 
     @Override
-    public void sendSimpleMessage(
-            String to, String subject, String text) {
+    public void sendSimpleMessage(String from, String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("brendaashk3105smith@gmail.com");
+        message.setFrom(from);
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
