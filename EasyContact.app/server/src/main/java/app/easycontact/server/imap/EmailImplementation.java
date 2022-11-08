@@ -5,5 +5,5 @@ import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
 @Data
-public class EmailImplementation extends Email {
+public final class EmailImplementation extends Email {
 }
