@@ -21,8 +21,10 @@ class SendEmailServiceImplTest {
 
     @Test
     void sendSimpleMessage() {
+//        TODO: automatic email test, https://testmail.app/docs/#get-started
         String from = env.getRequiredProperty("easycontact.email.username");
+        String to = env.getRequiredProperty("easycontact.email.to");
         log.info("Sending test email");
-        sendEmailService.sendSimpleMessage(from, "xiaoshaoyc@gmail.com", "testtest", "teststsetstetest");
+        sendEmailService.sendSimpleMessage(from, to, "testtest", "teststsetstetest");
     }
 }
