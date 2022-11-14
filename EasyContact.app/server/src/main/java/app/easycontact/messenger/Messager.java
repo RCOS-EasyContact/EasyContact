@@ -1,4 +1,4 @@
-package app.easycontact.messager;
+package app.easycontact.messenger;
 
 public interface Messager {
 

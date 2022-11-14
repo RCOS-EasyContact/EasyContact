@@ -1,9 +1,9 @@
-package app.easycontact.messager;
+package app.easycontact.messenger;
 
 import app.easycontact.emailsender.SendEmailService;
 import app.easycontact.emailsender.SendEmailServiceImpl;
 
-public class MessagerImpl implements Messager {
+public class MessengerImpl implements Messager {
     private SendEmailService sendEmailService;
 //    private recvEmailService recvEmailService;
 
@@ -12,7 +12,7 @@ public class MessagerImpl implements Messager {
     private String from;
     private String signature;
 
-    MessagerImpl(String from) {
+    MessengerImpl(String from) {
         this.sendEmailService = new SendEmailServiceImpl();
         this.from = from;
     }
