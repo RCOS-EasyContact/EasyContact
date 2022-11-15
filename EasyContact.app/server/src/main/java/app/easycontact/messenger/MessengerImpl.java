@@ -3,7 +3,7 @@ package app.easycontact.messenger;
 import app.easycontact.emailsender.SendEmailService;
 import app.easycontact.emailsender.SendEmailServiceImpl;
 
-public class MessengerImpl implements Messager {
+public class MessengerImpl implements Messenger {
     private SendEmailService sendEmailService;
 //    private recvEmailService recvEmailService;
 
