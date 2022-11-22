@@ -16,6 +16,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Date;
 
 import static graphql.schema.idl.RuntimeWiring.newRuntimeWiring;
 
@@ -36,9 +42,10 @@ class SendEmailServiceImplTest {
         String to = env.getRequiredProperty("easycontact.email.to");
         log.info("Sending test email");
         sendEmailService.sendSimpleMessage(from, to, "testtest", "teststsetstetest");
+
     }
 
-    private boolean verifyEmail() {
+    private boolean verifyEmailGraphQL() {
         String schema = "type Query{hello: String}";
 
         SchemaParser schemaParser = new SchemaParser();
@@ -58,4 +65,41 @@ class SendEmailServiceImplTest {
         // Prints: {hello=world}
         return true;
     }
+
+    @Test
+    void verifyEmailJson() throws IOException {
+        final String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0";
+        final String targetURL = "https://api.testmail.app/api/json";
+        final Date date = new Date();
+
+        URL obj = UriComponentsBuilder.fromUriString(targetURL)
+                .queryParam("apikey", env.getRequiredProperty("easycontact.testemail.apikey"))
+                .queryParam("namespace", "ml47u")
+                .queryParam("timestamp_from", String.valueOf(date.getTime()))
+                .queryParam("livequery", "true")
+                .build();
+        HttpURLConnection httpURLConnection = (HttpURLConnection) obj.openConnection();
+        httpURLConnection.setRequestMethod("GET");
+        httpURLConnection.setRequestProperty("User-Agent", userAgent);
+        int responseCode = httpURLConnection.getResponseCode();
+        log.info("GET Response Code :: " + responseCode);
+        assert responseCode == HttpURLConnection.HTTP_OK;
+//        if (responseCode == HttpURLConnection.HTTP_OK) { // success
+
+//            return true;
+//            BufferedReader in = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+//            String inputLine;
+//            StringBuffer response = new StringBuffer();
+//
+//            while ((inputLine = in .readLine()) != null) {
+//                response.append(inputLine);
+//            } in .close();
+//
+//            // print result
+//            System.out.println(response.toString());
+//        } else {
+//            return false;
+//            System.out.println("GET request not worked");
+    }
+}
 }
