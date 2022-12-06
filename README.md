@@ -5,7 +5,7 @@
 
 
 ### Backend Diagram
-![backend diagram](misc/backend%20diagram.jpg)
+![backend diagram](misc/backend%20diagram.png)
 
 
 ### Frontend Component Breakdown Diagram

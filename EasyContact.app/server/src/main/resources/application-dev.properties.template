@@ -1,0 +1,5 @@
+# cp application-dev.properties.template application-dev.properties
+easycontact.email.host=smtp.gmail.com
+easycontact.email.username=your_email_username@gmail.com
+easycontact.email.password=your_email_password
+easycontact.email.debug=true
