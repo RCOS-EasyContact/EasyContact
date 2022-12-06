@@ -10,6 +10,8 @@ import java.util.Properties;
 public final class EmailReceiverImplementation extends EmailReceiver {
     /**
      * Downloads new messages and fetches details for each message.
+     *
+     * @param folder name of the email folder
      */
     public void downloadEmails(@NonNull String folder) {
         Properties properties = getServerProperties(EmailReceiverProtocol.IMAP, serverName, serverPort);
