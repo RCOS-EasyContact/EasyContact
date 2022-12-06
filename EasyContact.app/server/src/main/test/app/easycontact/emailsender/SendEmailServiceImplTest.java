@@ -20,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.Date;
 
@@ -36,13 +37,14 @@ class SendEmailServiceImplTest {
     private Environment env;
 
     @Test
-    void sendSimpleMessage() {
+    void sendSimpleMessage() throws IOException {
 //        TODO: automatic email test, https://testmail.app/docs/#get-started
         String from = env.getRequiredProperty("easycontact.email.username");
         String to = env.getRequiredProperty("easycontact.email.to");
         log.info("Sending test email");
         sendEmailService.sendSimpleMessage(from, to, "testtest", "teststsetstetest");
 
+        verifyEmailJson();
     }
 
     private boolean verifyEmailGraphQL() {
@@ -63,11 +65,11 @@ class SendEmailServiceImplTest {
 
         System.out.println(executionResult.getData().toString());
         // Prints: {hello=world}
+
         return true;
     }
 
-    @Test
-    void verifyEmailJson() throws IOException {
+    void verifyEmailJson() throws SocketTimeoutException, IOException {
         final String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0";
         final String targetURL = "https://api.testmail.app/api/json";
         final Date date = new Date();
@@ -77,13 +79,18 @@ class SendEmailServiceImplTest {
                 .queryParam("namespace", "ml47u")
                 .queryParam("timestamp_from", String.valueOf(date.getTime()))
                 .queryParam("livequery", "true")
-                .build();
+                .build().toUri().toURL();
+        log.info("obj: " + obj);
         HttpURLConnection httpURLConnection = (HttpURLConnection) obj.openConnection();
         httpURLConnection.setRequestMethod("GET");
         httpURLConnection.setRequestProperty("User-Agent", userAgent);
+        // connection timeout = 20s
+        httpURLConnection.setReadTimeout(20000);
         int responseCode = httpURLConnection.getResponseCode();
         log.info("GET Response Code :: " + responseCode);
         assert responseCode == HttpURLConnection.HTTP_OK;
+
+
 //        if (responseCode == HttpURLConnection.HTTP_OK) { // success
 
 //            return true;
@@ -101,5 +108,4 @@ class SendEmailServiceImplTest {
 //            return false;
 //            System.out.println("GET request not worked");
     }
-}
 }
