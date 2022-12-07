@@ -1,12 +1,21 @@
 # EasyContact
 
-### Deploy Diagram
-![deploy diagram](misc/deploy%20diagram.jpg)
+## Overview
 
+EasyContact is an alternative web email application for Rensselaer students. We noticed that the existing roundcube interface is outdated and connecting to the site requires VPN connection. EasyContact is here to provide a modern user interface and mitigate the complexity of VPN connection with our side app, EasyAccess.
 
-### Backend Diagram
-![backend diagram](misc/backend%20diagram.png)
+## Tech Stack
 
+- Frontend: React
+- Backend: Java Spring
+- Packaging: Docker
 
-### Frontend Component Breakdown Diagram
-![frontend component breakdown diagram](misc/frontend_comp_breakdown.jpg)
+## Roadmap
+
+| Target Feature | Status |
+| -------------- | ------ |
+| Authentication with Rensselaer's email server | Complete |
+| Create a modern user interface | Complete |
+| Pull emails using IMAP | Complete |
+| Send emails using SMTP | Complete |
+| RESTful API | On-Going |
